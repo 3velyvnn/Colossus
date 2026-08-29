@@ -1,0 +1,13 @@
+--!strict
+
+local totp = require("../src/totp")
+
+local secret = buffer.fromstring("12345678901234567890")
+
+assert(totp.verifyHOTP(secret, 0, 755224))
+assert(totp.verifyHOTP(secret, 1, 287082))
+assert(not totp.verifyHOTP(secret, 0, 287082))
+
+print("HOTP verification tests passed ✓")
+
+return true
