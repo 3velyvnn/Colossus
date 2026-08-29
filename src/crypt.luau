@@ -1,4 +1,11 @@
 --!strict
+
+--[=[
+	@class crypt
+
+	Cryptographic primitives used by Colossus.
+]=]
+
 local crypto = require("@lute/crypto")
 
 const BLOCK_SIZE = 64
@@ -12,9 +19,9 @@ local crypt = {}
 --[=[
     Computes the HMAC-SHA1 of a message using a given key.
 
-    @param key The secret key as a buffer.
-    @param message The message to be hashed as a buffer.
-    @return The HMAC-SHA1 result as a buffer.
+    @param key buffer -- The secret key as a buffer.
+    @param message buffer -- The message to be hashed as a buffer.
+    @return buffer -- The HMAC-SHA1 result as a buffer.
 ]=]
 
 function crypt.hmacSha1(key: buffer, message: buffer): buffer
@@ -53,7 +60,7 @@ end
 --[=[
 	Generates a cryptographically random 32-byte key.
 
-	@return A random 32-byte buffer.
+	@return buffer -- A random 32-byte buffer.
 ]=]
 
 function crypt.generateKey(): buffer

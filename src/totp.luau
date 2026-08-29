@@ -2,6 +2,12 @@
 --@creator 3velyvnn
 --@description TOTP implementation using HMAC-SHA1
 
+--[=[
+	@class totp
+
+	Utilities for generating Time-based One-Time Passwords.
+]=]
+
 local crypt = require("./crypt")
 local base32 = require("./base32")
 
@@ -10,10 +16,10 @@ local totp = {}
 --[=[
 	Generates an HOTP code.
 
-	@param secret The secret key as a buffer.
-	@param counter The HOTP counter.
-	@param digits The number of digits for the HOTP code. Defaults to 6.
-	@return The generated HOTP code.
+	@param secret buffer -- The secret key.
+	@param counter number -- The HOTP counter.
+	@param digits number? -- The number of digits for the HOTP code. Defaults to 6.
+	@return number -- The generated HOTP code.
 ]=]
 
 function totp.hotp(secret: buffer, counter: number, digits: number?): number
@@ -53,8 +59,9 @@ end
 --[=[
 	Generates a cryptographically random TOTP secret.
 
-	@return A Base32-encoded TOTP secret.
+	@return string -- A Base32-encoded TOTP secret.
 ]=]
+
 function totp.generateSecret(): string
 	local secret = crypt.generateKey()
 
@@ -64,12 +71,11 @@ end
 --[=[
 	Generates a TOTP code based on the current time.
 
-	@param secret The Base32-encoded TOTP secret.
-	@param timeStamp The current timestamp in seconds. Defaults to the current time.
-	@param timeStep The time step in seconds. Defaults to 30.
-	@param digits The number of digits for the TOTP code. Defaults to 6.
-	
-	@return The generated TOTP code.
+	@param secret string -- The Base32-encoded TOTP secret.
+	@param timeStamp number? -- The current timestamp in seconds. Defaults to the current time.
+	@param timeStep number? -- The time step in seconds. Defaults to 30.
+	@param digits number? -- The number of digits for the TOTP code. Defaults to 6.
+	@return number -- The generated TOTP code.
 ]=]
 
 function totp.generate(secret: string, timeStamp: number?, timeStep: number?, digits: number?): number

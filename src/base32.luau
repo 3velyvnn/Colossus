@@ -1,13 +1,19 @@
 --!strict
 
+--[=[
+	@class base32
+
+	Base32 encoding and decoding utilities.
+]=]
+
 local base32 = {}
 const BASE32_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
 
 --[=[
 	Decodes a Base32-encoded string into a buffer.
 
-	@param input The Base32-encoded string.
-	@return The decoded bytes as a buffer.
+	@param input string -- The Base32-encoded string.
+	@return buffer -- The decoded bytes.
 ]=]
 
 function base32.decode(input: string): buffer
@@ -50,8 +56,8 @@ end
 --[=[
 	Encodes a buffer as a Base32 string.
 
-	@param input The bytes to encode.
-	@return The Base32-encoded string.
+	@param input buffer -- The bytes to encode.
+	@return string -- The Base32-encoded string.
 ]=]
 
 function base32.encode(input: buffer): string
