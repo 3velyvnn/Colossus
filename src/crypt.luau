@@ -7,6 +7,8 @@ local function xorByte(a: number, b: number): number
 	return bit32.bxor(a, b)
 end
 
+local crypt = {}
+
 --[=[
     Computes the HMAC-SHA1 of a message using a given key.
 
@@ -15,7 +17,6 @@ end
     @return The HMAC-SHA1 result as a buffer.
 ]=]
 
-local crypt = {}
 function crypt.hmacSha1(key: buffer, message: buffer): buffer
 	if buffer.len(key) > BLOCK_SIZE then
 		key = crypto.digest(crypto.hash.sha1, key)
