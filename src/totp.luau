@@ -57,6 +57,22 @@ function totp.hotp(secret: buffer, counter: number, digits: number?): number
 end
 
 --[=[
+	Verifies an HOTP code against a secret and counter.
+
+	@param secret buffer -- The secret key.
+	@param counter number -- The HOTP counter.
+	@param code number -- The HOTP code to verify.
+	@param digits number? -- The number of digits for the HOTP code. Defaults to 6.
+	@return boolean -- Whether the supplied code matches the generated HOTP code.
+]=]
+
+function totp.verifyHOTP(secret: buffer, counter: number, code: number, digits: number?): boolean
+	local expected = totp.hotp(secret, counter, digits)
+
+	return expected == code
+end
+
+--[=[
 	Generates a cryptographically random TOTP secret.
 
 	@return string -- A Base32-encoded TOTP secret.
