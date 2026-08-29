@@ -78,7 +78,7 @@ Colossus exposes the underlying building blocks as separate modules.
 
 The `crypt` module provides HMAC-SHA1:
 
-```luau
+```lua
 local crypt = require("./src/crypt")
 
 local digest = crypt.hmacSha1(key, message)
@@ -86,7 +86,7 @@ local digest = crypt.hmacSha1(key, message)
 
 It also provides cryptographically random 32-byte keys:
 
-```luau
+```lua
 local key = crypt.generateKey()
 ```
 
@@ -94,7 +94,7 @@ local key = crypt.generateKey()
 
 The `base32` module provides encoding and decoding between strings and buffers:
 
-```luau
+```lua
 local base32 = require("./src/base32")
 
 local encoded = base32.encode(data)

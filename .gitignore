@@ -3,3 +3,4 @@
 .secrets
 secrets.json
 build/
+package.json

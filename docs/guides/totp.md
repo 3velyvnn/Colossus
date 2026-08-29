@@ -12,7 +12,7 @@ Colossus implements TOTP using **HMAC-SHA1**, with Base32-encoded secrets and a 
 
 Use `generateSecret()` to create a new cryptographically random secret:
 
-```luau
+```lua
 local totp = require("./src/totp")
 
 local secret = totp.generateSecret()
@@ -28,7 +28,7 @@ Keep the secret private. It is the shared value used to generate TOTP codes.
 
 Pass the secret to `generate()`:
 
-```luau
+```lua
 local code = totp.generate(secret)
 
 print(string.format("%06d", code))
@@ -40,7 +40,7 @@ When no optional arguments are supplied, Colossus uses the current Unix timestam
 
 Use `verifyTOTP()` to check whether a supplied code matches the code generated for a secret and timestamp:
 
-```luau
+```lua
 local valid = totp.verifyTOTP(secret, code)
 
 print(valid)
@@ -50,13 +50,13 @@ It returns `true` when the supplied code matches and `false` otherwise.
 
 You can provide the same optional timestamp, time step, and digit count used by `generate()`:
 
-```luau
+```lua
 local valid = totp.verifyTOTP(secret, code, timestamp, 30, 6)
 ```
 
 For deterministic verification, provide an explicit timestamp:
 
-```luau
+```lua
 local timestamp = os.time()
 local code = totp.generate(secret, timestamp)
 
@@ -67,7 +67,7 @@ local valid = totp.verifyTOTP(secret, code, timestamp)
 
 A timestamp can be supplied explicitly to `generate()` or `verifyTOTP()`.
 
-```luau
+```lua
 local timestamp = os.time()
 local code = totp.generate(secret, timestamp)
 local valid = totp.verifyTOTP(secret, code, timestamp)
@@ -79,7 +79,7 @@ This is useful when you need deterministic behavior, such as testing against kno
 
 The time step controls how frequently the TOTP counter changes.
 
-```luau
+```lua
 local code = totp.generate(secret, os.time(), 60)
 ```
 
@@ -87,7 +87,7 @@ This example uses a 60-second time step instead of the default 30 seconds.
 
 The same time step must be supplied when verifying the code:
 
-```luau
+```lua
 local valid = totp.verifyTOTP(secret, code, os.time(), 60)
 ```
 
@@ -97,7 +97,7 @@ The time step must be greater than zero.
 
 Colossus allows TOTP codes from 1 to 9 digits:
 
-```luau
+```lua
 local code = totp.generate(secret, os.time(), 30, 8)
 local valid = totp.verifyTOTP(secret, code, os.time(), 30, 8)
 ```
@@ -149,7 +149,7 @@ Unix timestamp
 
 ### `totp.generate`
 
-```luau
+```lua
 totp.generate(
     secret: string,
     timeStamp: number?,
@@ -169,7 +169,7 @@ Generates a TOTP code from a Base32-encoded secret.
 
 ### `totp.verifyTOTP`
 
-```luau
+```lua
 totp.verifyTOTP(
     secret: string,
     code: number,
@@ -183,7 +183,7 @@ Verifies a TOTP code using the same generation parameters as `totp.generate()`.
 
 ### `totp.generateSecret`
 
-```luau
+```lua
 totp.generateSecret(): string
 ```
 

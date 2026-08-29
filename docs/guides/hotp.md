@@ -12,7 +12,7 @@ Colossus implements HOTP using **HMAC-SHA1** and supports configurable code leng
 
 The basic usage is:
 
-```luau
+```lua
 local totp = require("./src/totp")
 
 local secret = -- a secret as a buffer
@@ -47,13 +47,13 @@ Unlike TOTP, HOTP does not use the current time.
 
 The counter is supplied directly:
 
-```luau
+```lua
 local code = totp.hotp(secret, 0)
 ```
 
 Incrementing the counter produces a different HOTP value:
 
-```luau
+```lua
 local code1 = totp.hotp(secret, 0)
 local code2 = totp.hotp(secret, 1)
 ```
@@ -66,7 +66,7 @@ HOTP generates 6-digit codes by default.
 
 You can specify a different length:
 
-```luau
+```lua
 local code = totp.hotp(secret, counter, 8)
 
 print(string.format("%08d", code))
@@ -74,7 +74,7 @@ print(string.format("%08d", code))
 
 Colossus accepts between **1 and 9 digits**.
 
-```luau
+```lua
 local code = totp.hotp(secret, counter, 9)
 ```
 
@@ -86,7 +86,7 @@ Passing a value outside that range raises an error.
 
 For example:
 
-```luau
+```lua
 local secret = buffer.fromstring("12345678901234567890")
 
 local code = totp.hotp(secret, 0)
@@ -118,7 +118,7 @@ Known RFC test vectors can therefore be used to verify the implementation.
 
 ### `totp.hotp`
 
-```luau
+```lua
 totp.hotp(
     secret: buffer,
     counter: number,
@@ -136,7 +136,7 @@ Generates an HOTP code.
 
 The returned value is a number rather than a zero-padded string. If leading zeroes are required, format the result when displaying it:
 
-```luau
+```lua
 local code = totp.hotp(secret, counter)
 
 local formatted = string.format("%06d", code)
