@@ -20,3 +20,4 @@ local secret = totp.generateSecret()
 local code = totp.generate(secret)
 
 print(string.format("%06d", code))
+```
