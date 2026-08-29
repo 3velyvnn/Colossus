@@ -1,0 +1,9 @@
+title = "Colossus"
+gitSourceBranch = "main"
+
+[docusaurus]
+onBrokenLinks = "throw"
+
+[home]
+enabled = true
+includeReadme = true
