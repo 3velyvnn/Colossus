@@ -28,3 +28,5 @@ for counter, expectedCode in ipairs(expected) do
 
 	print(`Counter {counter - 1}: {expectedCode} ✓`)
 end
+
+return true

@@ -24,3 +24,5 @@ for _, test in tests do
 
 	print(`Timestamp {test.timestamp}: {formatted} ✓`)
 end
+
+return true

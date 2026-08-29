@@ -18,3 +18,5 @@ assert(
 )
 
 print("Base32: ✓")
+
+return true
