@@ -34,22 +34,46 @@ local code = totp.generate(secret)
 print(string.format("%06d", code))
 ```
 
-When no optional arguments are supplied, Colossus:
+When no optional arguments are supplied, Colossus uses the current Unix timestamp, a 30-second time step, and 6-digit codes.
 
-- Uses the current Unix timestamp.
-- Uses a 30-second time step.
-- Generates a 6-digit code.
+## Verifying a Code
 
-## Custom Timestamp
+Use `verifyTOTP()` to check whether a supplied code matches the code generated for a secret and timestamp:
 
-A timestamp can be supplied explicitly.
+```luau
+local valid = totp.verifyTOTP(secret, code)
+
+print(valid)
+```
+
+It returns `true` when the supplied code matches and `false` otherwise.
+
+You can provide the same optional timestamp, time step, and digit count used by `generate()`:
+
+```luau
+local valid = totp.verifyTOTP(secret, code, timestamp, 30, 6)
+```
+
+For deterministic verification, provide an explicit timestamp:
 
 ```luau
 local timestamp = os.time()
 local code = totp.generate(secret, timestamp)
+
+local valid = totp.verifyTOTP(secret, code, timestamp)
 ```
 
-This is useful when you need deterministic code generation, such as testing against known TOTP test vectors.
+## Custom Timestamp
+
+A timestamp can be supplied explicitly to `generate()` or `verifyTOTP()`.
+
+```luau
+local timestamp = os.time()
+local code = totp.generate(secret, timestamp)
+local valid = totp.verifyTOTP(secret, code, timestamp)
+```
+
+This is useful when you need deterministic behavior, such as testing against known TOTP test vectors.
 
 ## Custom Time Step
 
@@ -61,6 +85,12 @@ local code = totp.generate(secret, os.time(), 60)
 
 This example uses a 60-second time step instead of the default 30 seconds.
 
+The same time step must be supplied when verifying the code:
+
+```luau
+local valid = totp.verifyTOTP(secret, code, os.time(), 60)
+```
+
 The time step must be greater than zero.
 
 ## Custom Code Length
@@ -69,8 +99,7 @@ Colossus allows TOTP codes from 1 to 9 digits:
 
 ```luau
 local code = totp.generate(secret, os.time(), 30, 8)
-
-print(string.format("%08d", code))
+local valid = totp.verifyTOTP(secret, code, os.time(), 30, 8)
 ```
 
 The default is 6 digits.
@@ -86,6 +115,8 @@ Internally, `generate()` performs these steps:
 5. Passes the decoded secret and counter to `hotp()`.
 6. HOTP computes the HMAC-SHA1 digest and dynamically truncates it.
 7. The resulting integer is reduced to the requested number of digits.
+
+`verifyTOTP()` generates the expected code using the same parameters and compares it with the supplied code.
 
 Conceptually:
 
@@ -106,22 +137,13 @@ Unix timestamp
       │
       ▼
    TOTP code
+      │
+      ▼
+  verifyTOTP()
+      │
+      ▼
+  true / false
 ```
-
-## Testing With a Fixed Timestamp
-
-Because `generate()` accepts a timestamp, you can use fixed timestamps when testing:
-
-```luau
-local code = totp.generate(
-    secret,
-    timestamp,
-    30,
-    6
-)
-```
-
-This avoids relying on the current system time and makes test results reproducible.
 
 ## API
 
@@ -144,6 +166,20 @@ Generates a TOTP code from a Base32-encoded secret.
 | `timeStamp` | `number?` | `os.time()` |
 | `timeStep` | `number?` | `30` |
 | `digits` | `number?` | `6` |
+
+### `totp.verifyTOTP`
+
+```luau
+totp.verifyTOTP(
+    secret: string,
+    code: number,
+    timeStamp: number?,
+    timeStep: number?,
+    digits: number?
+): boolean
+```
+
+Verifies a TOTP code using the same generation parameters as `totp.generate()`.
 
 ### `totp.generateSecret`
 
