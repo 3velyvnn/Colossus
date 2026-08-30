@@ -1,7 +1,6 @@
 --!strict
 
 local qr = require("../src/qr")
-local fs = require("@lute/fs")
 
 local matrix = qr.encode("Hello")
 
