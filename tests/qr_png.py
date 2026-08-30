@@ -1,55 +1,32 @@
 from pathlib import Path
-import struct
-import zlib
+from PIL import Image
 
-INPUT = Path("qr.matrix")
-OUTPUT = Path("qr.png")
-SCALE = 20
-QUIET_ZONE = 4
+matrix = Path("qr.matrix").read_text().splitlines()
+matrix = [row.strip() for row in matrix if row.strip()]
 
-rows = [line.strip() for line in INPUT.read_text(encoding="utf-8").splitlines() if line.strip()]
+size = len(matrix)
+assert size == 21, f"Expected 21x21 matrix, got {size}x{len(matrix[0])}"
 
-if not rows or any(len(row) != len(rows[0]) for row in rows):
-    raise SystemExit("qr.matrix is missing or malformed")
+quiet_zone = 4
+scale = 20
 
-if len(rows) != len(rows[0]):
-    raise SystemExit("QR matrix must be square")
+image_size = (size + quiet_zone * 2) * scale
 
-if any(char not in "01" for row in rows for char in row):
-    raise SystemExit("QR matrix may only contain 0 and 1")
+image = Image.new("1", (image_size, image_size), 1)
+pixels = image.load()
 
-size = len(rows)
-image_modules = size + QUIET_ZONE * 2
-width = image_modules * SCALE
+for y, row in enumerate(matrix):
+    assert len(row) == size, "Matrix is not square"
 
-# Grayscale, 8-bit PNG. Each scanline starts with filter type 0.
-raw = bytearray()
-for y in range(image_modules):
-    raw.append(0)
-    qr_y = y - QUIET_ZONE
-    for _ in range(SCALE):
-        for x in range(image_modules):
-            qr_x = x - QUIET_ZONE
-            dark = (
-                0 <= qr_y < size
-                and 0 <= qr_x < size
-                and rows[qr_y][qr_x] == "1"
-            )
-            raw.extend(bytes([0 if dark else 255]) * SCALE)
+    for x, value in enumerate(row):
+        if value == "1":
+            px = (x + quiet_zone) * scale
+            py = (y + quiet_zone) * scale
 
+            for dy in range(scale):
+                for dx in range(scale):
+                    pixels[px + dx, py + dy] = 0
 
-def chunk(kind: bytes, data: bytes) -> bytes:
-    return (
-        struct.pack(">I", len(data))
-        + kind
-        + data
-        + struct.pack(">I", zlib.crc32(kind + data) & 0xFFFFFFFF)
-    )
+image.save("qr.png")
 
-png = bytearray(b"\x89PNG\r\n\x1a\n")
-png += chunk(b"IHDR", struct.pack(">IIBBBBB", width, width, 8, 0, 0, 0, 0))
-png += chunk(b"IDAT", zlib.compress(bytes(raw), level=9))
-png += chunk(b"IEND", b"")
-
-OUTPUT.write_bytes(png)
-print(f"Wrote {OUTPUT} ({width}x{width}) with a {QUIET_ZONE}-module quiet zone.")
+print(f"QR PNG written to qr.png ({image_size}x{image_size})")

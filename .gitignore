@@ -5,3 +5,5 @@ secrets.json
 build/
 package.json
 push.ps1
+qr.matrix
+qr.png
