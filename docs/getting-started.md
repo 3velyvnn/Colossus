@@ -10,7 +10,7 @@ Colossus provides HOTP and TOTP primitives for Luau, along with the cryptographi
 
 The simplest way to use Colossus is to generate a secret and create a TOTP code from it.
 
-```luau
+```lua
 local totp = require("./src/totp")
 
 local secret = totp.generateSecret()
@@ -24,7 +24,7 @@ print(string.format("%06d", code))
 
 `generateSecret()` creates a cryptographically random secret and returns it as a Base32-encoded string.
 
-```luau
+```lua
 local secret = totp.generateSecret()
 ```
 
@@ -34,7 +34,7 @@ The secret is intended to be kept private and reused when generating codes for t
 
 Pass the Base32-encoded secret to `generate()`:
 
-```luau
+```lua
 local code = totp.generate(secret)
 ```
 
@@ -46,7 +46,7 @@ By default, Colossus uses:
 
 These values can be overridden:
 
-```luau
+```lua
 local code = totp.generate(secret, timestamp, 30, 6)
 ```
 
@@ -56,7 +56,7 @@ The timestamp and time step are measured in seconds.
 
 Colossus also exposes HOTP directly:
 
-```luau
+```lua
 local code = totp.hotp(secret, counter)
 ```
 
@@ -64,7 +64,7 @@ Unlike TOTP, HOTP is based on a counter rather than the current time.
 
 The number of digits can also be customized:
 
-```luau
+```lua
 local code = totp.hotp(secret, counter, 8)
 ```
 
