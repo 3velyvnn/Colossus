@@ -4,15 +4,15 @@ sidebar_position: 2
 
 # Base32
 
-The `base32` module provides Base32 encoding and decoding utilities used by Colossus.
+The `base32` module provides the Base32 encoding and decoding functions used by Colossus.
 
-Base32 is particularly useful for TOTP secrets because the encoded representation is easy to store and enter into authenticator applications.
+Base32 is commonly used for TOTP secrets because the encoded values are easy to store, copy, and enter into authenticator applications.
 
 ## Encoding
 
-`encode()` converts a buffer into a Base32-encoded string:
+`encode()` converts a `buffer` into a Base32-encoded string:
 
-```lua
+```lua id="c4y8pm"
 local base32 = require("../../src/base32")
 
 local data = buffer.fromstring("Hello")
@@ -21,37 +21,37 @@ local encoded = base32.encode(data)
 print(encoded)
 ```
 
-The returned value is a string containing the Base32 representation of the input data.
+The result is a string containing the Base32 representation of the input data.
 
 ## Decoding
 
-`decode()` converts a Base32-encoded string back into a buffer:
+`decode()` converts a Base32-encoded string back into a `buffer`:
 
-```lua
+```lua id="7q2mxf"
 local base32 = require("../../src/base32")
 
 local encoded = "JBSWY3DP"
 local decoded = base32.decode(encoded)
 ```
 
-This is the operation used by the TOTP module to turn a Base32-encoded secret into the binary secret used by HOTP.
+This is what the TOTP module uses to turn a Base32-encoded secret into the binary data used by HOTP.
 
 ## API
 
 ### `base32.encode`
 
-```lua
+```lua id="x1p7vd"
 base32.encode(data: buffer): string
 ```
 
-Encodes a buffer as Base32.
+Encodes a buffer as a Base32 string.
 
 ### `base32.decode`
 
-```lua
+```lua id="k8n3rq"
 base32.decode(data: string): buffer
 ```
 
 Decodes a Base32 string into a buffer.
 
-For the complete parameter and return-value documentation, see the generated **API Reference**.
+For complete parameter and return-value information, see the generated **API Reference**.

@@ -4,11 +4,11 @@ sidebar_position: 2
 
 # Getting Started
 
-Colossus provides HOTP and TOTP primitives for Luau, along with the cryptographic and encoding utilities they rely on.
+Colossus gives you the pieces needed to work with **HOTP** and **TOTP** in Luau, from generating secrets to creating one-time-password codes.
 
 ## TOTP
 
-The simplest way to use Colossus is to generate a secret and create a TOTP code from it.
+TOTP is probably the easiest place to start. Generate a secret, then use that secret to create a code:
 
 ```lua
 local totp = require("./src/totp")
@@ -22,17 +22,17 @@ print(string.format("%06d", code))
 
 ### Generating a Secret
 
-`generateSecret()` creates a cryptographically random secret and returns it as a Base32-encoded string.
+`generateSecret()` creates a randomly generated secret and returns it as a Base32-encoded string:
 
 ```lua
 local secret = totp.generateSecret()
 ```
 
-The secret is intended to be kept private and reused when generating codes for the same authenticator.
+Keep this secret private. You'll reuse it whenever you need to generate or verify codes for the same authenticator.
 
 ### Generating a Code
 
-Pass the Base32-encoded secret to `generate()`:
+Pass the secret to `generate()` to create a TOTP code:
 
 ```lua
 local code = totp.generate(secret)
@@ -44,25 +44,23 @@ By default, Colossus uses:
 - A 30-second time step
 - 6-digit codes
 
-These values can be overridden:
+You can provide your own values when needed:
 
 ```lua
 local code = totp.generate(secret, timestamp, 30, 6)
 ```
 
-The timestamp and time step are measured in seconds.
+Both the timestamp and time step are measured in seconds.
 
 ## HOTP
 
-Colossus also exposes HOTP directly:
+HOTP works similarly to TOTP, but uses a counter instead of the current time:
 
 ```lua
 local code = totp.hotp(secret, counter)
 ```
 
-Unlike TOTP, HOTP is based on a counter rather than the current time.
-
-The number of digits can also be customized:
+You can also choose the number of digits:
 
 ```lua
 local code = totp.hotp(secret, counter, 8)
@@ -72,7 +70,7 @@ Both `hotp()` and `generate()` return the code as a number.
 
 ## Lower-Level Utilities
 
-Colossus exposes the underlying building blocks as separate modules.
+Colossus keeps its lower-level building blocks available as separate modules, so you can use them directly if you need them.
 
 ### HMAC-SHA1
 
@@ -84,7 +82,7 @@ local crypt = require("./src/crypt")
 local digest = crypt.hmacSha1(key, message)
 ```
 
-It also provides cryptographically random 32-byte keys:
+You can also generate a random 32-byte key:
 
 ```lua
 local key = crypt.generateKey()
@@ -92,7 +90,7 @@ local key = crypt.generateKey()
 
 ### Base32
 
-The `base32` module provides encoding and decoding between strings and buffers:
+The `base32` module handles encoding and decoding between strings and buffers:
 
 ```lua
 local base32 = require("./src/base32")
@@ -101,11 +99,11 @@ local encoded = base32.encode(data)
 local decoded = base32.decode(encoded)
 ```
 
-These utilities are used internally by the TOTP implementation, but are also available independently when needed.
+These utilities are used internally by TOTP, but they're available independently if you need them for something else.
 
-## Next Steps
+## Where to Go Next
 
-- **TOTP** — Learn how time-based one-time passwords work with Colossus.
-- **HOTP** — Learn how counter-based one-time passwords work.
-- **Cryptography** — Explore Colossus's HMAC-SHA1 and Base32 primitives.
+- **TOTP** — Learn more about time-based one-time passwords.
+- **HOTP** — Learn more about counter-based one-time passwords.
+- **Cryptography** — Explore the HMAC-SHA1 and Base32 building blocks.
 - **API Reference** — Browse the complete generated API documentation.

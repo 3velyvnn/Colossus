@@ -4,3 +4,4 @@
 secrets.json
 build/
 package.json
+push.ps1
