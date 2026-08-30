@@ -31,11 +31,7 @@ function totp.hotp(secret: buffer, counter: number, digits: number?): number
 	local hmacResult = crypt.hmacSha1(secret, counterBuffer)
 	local offset = bit32.band(buffer.readu8(hmacResult, buffer.len(hmacResult) - 1), 0x0F)
 
-	local truncatedHash =
-		bit32.lshift(buffer.readu8(hmacResult, offset), 24)
-		+ bit32.lshift(buffer.readu8(hmacResult, offset + 1), 16)
-		+ bit32.lshift(buffer.readu8(hmacResult, offset + 2), 8)
-		+ buffer.readu8(hmacResult, offset + 3)
+	local truncatedHash = bit32.byteswap(buffer.readu32(hmacResult, offset))
 
 	local digitCount = digits or 6
 	assert(digitCount >= 1 and digitCount <= 9, "digits must be between 1 and 9")
