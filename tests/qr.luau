@@ -125,3 +125,17 @@ qr.printMatrix(unmasked)
 -- mask selection and format information.
 print("Final masked QR:")
 qr.printMatrix(matrix)
+
+-- Export the final matrix as 0/1 rows for the PNG renderer.
+local file = assert(io.open("qr.matrix", "w"))
+
+for y = 1, #matrix do
+	for x = 1, #matrix[y] do
+		file:write(if matrix[y][x] then "1" else "0")
+	end
+
+	file:write("\n")
+end
+
+file:close()
+print("Matrix written to qr.matrix")
