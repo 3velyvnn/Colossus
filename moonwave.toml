@@ -3,7 +3,7 @@ gitSourceBranch = "main"
 
 [docusaurus]
 url = "https://3velyvnn.github.io"
-baseUrl = "/"
+baseUrl = "/Colossus"
 onBrokenLinks = "throw"
 
 [home]
