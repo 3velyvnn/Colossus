@@ -26,7 +26,7 @@ The implementations follow the algorithms and test vectors defined by **RFC 4226
 
 Generate a secret and use it to create a TOTP code:
 
-```luau
+```lua
 local totp = require("./src/totp")
 
 local secret = totp.generateSecret()
