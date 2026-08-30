@@ -4,5 +4,5 @@
 secrets.json
 build/
 package.json
-push.ps1
+commands/
 archives/

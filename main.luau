@@ -1,5 +1,6 @@
 --!strict
 
+--[[
 local totp = require("./src/totp")
 
 local secret = buffer.fromstring("12345678901234567890")
@@ -9,8 +10,8 @@ local code = totp.hotp(secret, 0)
 print("Generated:", code)
 print("Valid:", totp.verifyHOTP(secret, 0, code))
 print("Invalid:", totp.verifyHOTP(secret, 0, 123456))
+]]--
 
---[[
 local totp = require("./src/totp")
 local task = require("@lute/task")
 local io = require("@lute/io")
@@ -41,4 +42,3 @@ while true do
 
 	task.wait(0.1)
 end
-]]--
