@@ -1,6 +1,7 @@
 --!strict
 
 local qr = require("../src/qr")
+local fs = require("@lute/fs")
 
 local matrix = qr.encode("Hello")
 
@@ -127,15 +128,15 @@ print("Final masked QR:")
 qr.printMatrix(matrix)
 
 -- Export the final matrix as 0/1 rows for the PNG renderer.
-local file = assert(io.open("qr.matrix", "w"))
+local file = fs.open("qr.matrix", "w")
 
 for y = 1, #matrix do
 	for x = 1, #matrix[y] do
-		file:write(if matrix[y][x] then "1" else "0")
+		fs.write(file, if matrix[y][x] then "1" else "0")
 	end
 
-	file:write("\n")
+	fs.write(file, "\n")
 end
 
-file:close()
+fs.close(file)
 print("Matrix written to qr.matrix")
