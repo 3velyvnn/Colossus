@@ -5,3 +5,4 @@
 
 [tools]
 lute = "luau-lang/lute@1.0.0"
+lune = "lune-org/lune@0.10.5"
