@@ -120,3 +120,8 @@ local unmasked = qr.getUnmaskedMatrix("Hello")
 
 print("Unmasked QR:")
 qr.printMatrix(unmasked)
+
+-- Print the actual matrix returned by qr.encode(), including
+-- mask selection and format information.
+print("Final masked QR:")
+qr.printMatrix(matrix)
