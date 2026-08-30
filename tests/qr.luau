@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 --!strict
 
 local qr = require("../src/qr")
@@ -141,5 +140,3 @@ end
 
 fs.close(file)
 print("Matrix written to qr.matrix")
-=======
->>>>>>> 202b475 (okay)
