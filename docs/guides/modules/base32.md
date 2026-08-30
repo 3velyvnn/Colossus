@@ -12,7 +12,7 @@ Base32 is particularly useful for TOTP secrets because the encoded representatio
 
 `encode()` converts a buffer into a Base32-encoded string:
 
-```luau
+```lua
 local base32 = require("../../src/base32")
 
 local data = buffer.fromstring("Hello")
@@ -27,7 +27,7 @@ The returned value is a string containing the Base32 representation of the input
 
 `decode()` converts a Base32-encoded string back into a buffer:
 
-```luau
+```lua
 local base32 = require("../../src/base32")
 
 local encoded = "JBSWY3DP"
@@ -40,7 +40,7 @@ This is the operation used by the TOTP module to turn a Base32-encoded secret in
 
 ### `base32.encode`
 
-```luau
+```lua
 base32.encode(data: buffer): string
 ```
 
@@ -48,7 +48,7 @@ Encodes a buffer as Base32.
 
 ### `base32.decode`
 
-```luau
+```lua
 base32.decode(data: string): buffer
 ```
 

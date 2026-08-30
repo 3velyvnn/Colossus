@@ -12,7 +12,7 @@ It currently provides HMAC-SHA1 and cryptographically random key generation.
 
 `hmacSha1()` computes an HMAC-SHA1 digest from a key and message.
 
-```luau
+```lua
 local crypt = require("../../src/crypt")
 
 local key = buffer.fromstring("secret")
@@ -29,7 +29,7 @@ Colossus uses HMAC-SHA1 as the cryptographic primitive for HOTP, and therefore T
 
 `generateKey()` creates a cryptographically random 32-byte key:
 
-```luau
+```lua
 local crypt = require("../../src/crypt")
 
 local key = crypt.generateKey()
@@ -41,7 +41,7 @@ This is used by Colossus when generating new TOTP secrets.
 
 ### `crypt.hmacSha1`
 
-```luau
+```lua
 crypt.hmacSha1(key: buffer, message: buffer): buffer
 ```
 
@@ -49,7 +49,7 @@ Computes an HMAC-SHA1 digest.
 
 ### `crypt.generateKey`
 
-```luau
+```lua
 crypt.generateKey(): buffer
 ```
 
