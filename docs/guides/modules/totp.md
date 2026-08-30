@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# TOTP Module
+# TOTP
 
 The `totp` module contains Colossus's HOTP and TOTP implementations.
 
